@@ -11,9 +11,11 @@ export default function Header({ heading, subheading }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center font-bold text-xl border-2 border-white">
-              TB
-            </div>
+            <img
+              src="/logo_round.png"
+              alt="Logo The Bug"
+              className="w-12 h-12 rounded-full object-cover border-2 border-white"
+            />
             <div>
               <h1 className="text-2xl font-bold">{heading}</h1>
               <p className="text-blue-200 text-sm">{subheading}</p>
