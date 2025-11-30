@@ -21,16 +21,16 @@ export default function Post({ post }: PostProps) {
     <article
       key={post.id}
       className={`bg-gray-900 rounded-lg border hover:border-blue-600 transition-all ${
-        post.isPinned ? "border-blue-600" : "border-gray-800"
+        false ? "border-blue-600" : "border-gray-800"
       }`}
     >
       <div className="p-4">
-        {post.isPinned && <PinnedBadge />}
+        {/* {post.isPinned && <PinnedBadge />} */}
         <div className="flex-1">
           <PostMeta
-            category={post.category}
-            author={post.author}
-            timestamp={post.timestamp}
+            category={"Geral"}
+            author={post.user.username}
+            timestamp={post.createdAt}
           />
 
           <h2 className="text-xl font-bold mb-2 hover:text-blue-400 cursor-pointer">
@@ -39,7 +39,7 @@ export default function Post({ post }: PostProps) {
 
           <p className="text-gray-400 mb-4 line-clamp-2">{post.content}</p>
 
-          <PostActions commentsCount={post.comments} votes={post.votes} />
+          <PostActions commentsCount={post._count.comments} votes={post.upvotes - post.downvotes} />
         </div>
       </div>
     </article>
