@@ -1,4 +1,4 @@
-import type { CommentInfo } from "../../../types/CommentInfo";
+import type { CommentInfo } from "../../../types/comment.types";
 import { formatTimeStamp } from "../../../utils/datetime";
 import CommentActions from "./CommentActions";
 import CommentMeta from "./CommentMeta";

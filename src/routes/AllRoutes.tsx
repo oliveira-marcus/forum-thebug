@@ -11,31 +11,61 @@ import CreatePoll from "./CreatePoll.tsx";
 import Submit from "./Submit.tsx";
 import { Route, Routes, Navigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext.tsx";
+import type { JSX } from "react";
 
 export default function AllRoutes() {
-  const { token } = useAuth();
+  const { loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  function ProtectedRoute({ children }: { children: JSX.Element }) {
+    const { token } = useAuth();
+    return token ? children : <Navigate to="/login" replace />;
+  }
+
+  function PublicRoute({ children }: { children: JSX.Element }) {
+    const { token } = useAuth();
+    return token ? <Navigate to="/" replace /> : children;
+  }
 
   return (
     <Routes>
-      {!token ? (
-        <>
-          <Route index element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </>
-      ) : (
-        <Route element={<FeedLayout />}>
-          <Route index element={<Home />} />
-          <Route path="posts/criar" element={<Submit />} />
-          <Route path="enquetes" element={<Polls />} />
-          <Route path="enquetes/criar" element={<CreatePoll />} />
-          <Route path="financas" element={<Finances />} />
-          <Route path="esportes" element={<Sports />} />
-          <Route path="eventos" element={<Events />} />
-          <Route path=":postId" element={<PostPage />} />
-        </Route>
-      )}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <FeedLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Home />} />
+        <Route path="posts/criar" element={<Submit />} />
+        <Route path="enquetes" element={<Polls />} />
+        <Route path="enquetes/criar" element={<CreatePoll />} />
+        <Route path="financas" element={<Finances />} />
+        <Route path="esportes" element={<Sports />} />
+        <Route path="eventos" element={<Events />} />
+        <Route path=":postId" element={<PostPage />} />
+      </Route>
     </Routes>
   );
 }
-

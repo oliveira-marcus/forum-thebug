@@ -2,7 +2,8 @@ import Comment from "../components/common/Comment/Comment";
 import PostActions from "../components/common/Post/PostActionst";
 import PostMeta from "../components/common/Post/PostMeta";
 import ReplyPostInput from "../components/common/Post/ReplyPostInput";
-import type { CommentInfo } from "../types/CommentInfo";
+import type { CommentInfo } from "../types/comment.types";
+
 import { formatTimeStamp } from "../utils/datetime";
 
 export default function PostPage() {
@@ -35,6 +36,7 @@ export default function PostPage() {
       userId: 2,
       content: "Great post!",
       createdAt: "2025-11-29T12:01:51.084Z",
+      updatedAt: "2025-11-29T12:01:51.084Z",
       upvotes: 1,
       downvotes: 0,
       parentCommentId: null,
@@ -54,6 +56,7 @@ export default function PostPage() {
           userId: 2,
           content: "This is a reply to the comment",
           createdAt: "2025-11-30T12:08:23.799Z",
+          updatedAt: "2025-11-30T12:08:23.799Z",
           upvotes: 0,
           downvotes: 0,
           parentCommentId: 1,
@@ -73,6 +76,7 @@ export default function PostPage() {
               userId: 2,
               content: "This is a reply to a reply",
               createdAt: "2025-11-30T12:12:53.542Z",
+              updatedAt: "2025-11-30T12:12:53.542Z",
               upvotes: 0,
               downvotes: 0,
               parentCommentId: 3,

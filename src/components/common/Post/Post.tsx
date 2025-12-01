@@ -1,8 +1,8 @@
-import { Award, ChevronUp } from "lucide-react";
-import type { PostInfo } from "../../../types/PostInfo";
+import { Award } from "lucide-react";
 import PostMeta from "./PostMeta";
 import PostActions from "./PostActionst";
 import { formatTimeStamp } from "../../../utils/datetime";
+import type { PostInfo } from '../../../types/post.types';
 
 interface PostProps {
   post: PostInfo;

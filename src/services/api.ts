@@ -13,7 +13,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config: any) => {
    const token = localStorage.getItem('@forum:token')  
    if (token && config.headers) {
-     config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+     config.headers.Authorization = `Bearer ${token}`;
    }
    return config;
  });

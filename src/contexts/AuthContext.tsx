@@ -5,27 +5,35 @@ interface AuthContextData {
   signIn: (token: string) => void;
   signOut: () => void;
   loadStoredData: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    loadStoredData();
+    const savedToken = localStorage.getItem("@forum:token");
+    if (savedToken) {
+      setToken(savedToken);
+    }
+    setLoading(false);
   }, []);
 
   function loadStoredData() {
     try {
+      setLoading(true);
       const storedToken = localStorage.getItem("@forum:token");
 
       if (storedToken) {
         setToken(storedToken);
       }
-
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -49,7 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-
   return (
     <AuthContext.Provider
       value={{
@@ -57,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signIn,
         signOut,
         loadStoredData,
+        loading
       }}
     >
       {children}
