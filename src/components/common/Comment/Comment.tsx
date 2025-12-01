@@ -36,6 +36,28 @@ function Replies({
 
 export default function Comment({ comment, postId, setComments }: CommentProps) {
   const [isReplying, setIsReplying] = useState(false);
+  const [commentData, setCommentData] = useState({
+    upvotes: comment.upvotes,
+    downvotes: comment.downvotes,
+  });
+
+  const handleVoteSuccess = (newUpvotes: number, newDownvotes: number) => {
+    setCommentData({
+      upvotes: newUpvotes,
+      downvotes: newDownvotes,
+    });
+
+    // Update the comment in the parent state
+    setComments((prevComments) =>
+      prevComments.map((c) =>
+        c.id === comment.id
+          ? { ...c, upvotes: newUpvotes, downvotes: newDownvotes }
+          : c
+      )
+    );
+  };
+
+  const calculatedVotes = commentData.upvotes - commentData.downvotes;
 
   return (
     <div className="mb-4">
@@ -47,8 +69,10 @@ export default function Comment({ comment, postId, setComments }: CommentProps) 
       <p className="text-gray-300 mt-1">{comment.content}</p>
 
       <CommentActions
-        votes={comment.upvotes - comment.downvotes}
+        commentId={comment.id}
+        votes={calculatedVotes}
         onReply={() => setIsReplying(true)} // ← ENABLE BUTTON
+        onVoteSuccess={handleVoteSuccess}
       />
 
       {isReplying && (

@@ -38,6 +38,32 @@ export const commentService = {
     return response.data;
   },
 
+  toggleUpvoteComment: async (id: number, currentVote: "upvote" | "downvote" | null): Promise<CommentInfo> => {
+    if (currentVote === "upvote") {
+      const response = await api.post(`/comments/${id}/remove-upvote`);
+      return response.data;
+    } else if (currentVote === "downvote") {
+      const response = await api.post(`/comments/${id}/upvote`);
+      return response.data;
+    } else {
+      const response = await api.post(`/comments/${id}/upvote`);
+      return response.data;
+    }
+  },
+
+  toggleDownvoteComment: async (id: number, currentVote: "upvote" | "downvote" | null): Promise<CommentInfo> => {
+    if (currentVote === "downvote") {
+      const response = await api.post(`/comments/${id}/remove-downvote`);
+      return response.data;
+    } else if (currentVote === "upvote") {
+      const response = await api.post(`/comments/${id}/downvote`);
+      return response.data;
+    } else {
+      const response = await api.post(`/comments/${id}/downvote`);
+      return response.data;
+    }
+  },
+
   replyToComment: async (commentId: number, content: string): Promise<CommentInfo> => {
     const response = await api.post(`/comments/${commentId}/reply`, { content });
     return response.data;

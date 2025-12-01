@@ -1,4 +1,4 @@
-import { Award } from "lucide-react";
+import { useState } from "react";
 import PostMeta from "./PostMeta";
 import PostActions from "./PostActionst";
 import { formatTimeStamp } from "../../../utils/datetime";
@@ -9,16 +9,15 @@ interface PostProps {
   post: PostInfo;
 }
 
-function PinnedBadge() {
-  return (
-    <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold mb-2">
-      <Award className="w-4 h-4" />
-      FIXADO PELA DIRETORIA
-    </div>
-  );
-}
-
 export default function Post({ post }: PostProps) {
+  const [postVotes, setPostVotes] = useState({ upvotes: post.upvotes, downvotes: post.downvotes });
+
+  const handleVoteSuccess = (newUpvotes: number, newDownvotes: number) => {
+    setPostVotes({ upvotes: newUpvotes, downvotes: newDownvotes });
+  };
+
+  const votes = postVotes.upvotes - postVotes.downvotes;
+
   return (
     <article
       key={post.id}
@@ -44,8 +43,10 @@ export default function Post({ post }: PostProps) {
           <p className="text-gray-400 mb-4 line-clamp-2">{post.content}</p>
 
           <PostActions
+            postId={post.id}
             commentsCount={post._count.comments}
-            votes={post.upvotes - post.downvotes}
+            votes={votes}
+            onVoteSuccess={handleVoteSuccess}
           />
         </div>
       </div>

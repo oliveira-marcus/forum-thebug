@@ -38,4 +38,36 @@ export const postService = {
     const response = await api.post(`/posts/${id}/downvote`);
     return response.data;
   },
+
+  toggleUpvotePost: async (id: number, currentVote: "upvote" | "downvote" | null): Promise<PostInfo> => {
+    if (currentVote === "upvote") {
+      // Remove upvote
+      const response = await api.post(`/posts/${id}/remove-upvote`);
+      return response.data;
+    } else if (currentVote === "downvote") {
+      // Switch from downvote to upvote
+      const response = await api.post(`/posts/${id}/upvote`);
+      return response.data;
+    } else {
+      // Add upvote
+      const response = await api.post(`/posts/${id}/upvote`);
+      return response.data;
+    }
+  },
+
+  toggleDownvotePost: async (id: number, currentVote: "upvote" | "downvote" | null): Promise<PostInfo> => {
+    if (currentVote === "downvote") {
+      // Remove downvote
+      const response = await api.post(`/posts/${id}/remove-downvote`);
+      return response.data;
+    } else if (currentVote === "upvote") {
+      // Switch from upvote to downvote
+      const response = await api.post(`/posts/${id}/downvote`);
+      return response.data;
+    } else {
+      // Add downvote
+      const response = await api.post(`/posts/${id}/downvote`);
+      return response.data;
+    }
+  },
 };
