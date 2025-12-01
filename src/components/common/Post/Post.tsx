@@ -4,6 +4,7 @@ import PostActions from "./PostActionst";
 import { formatTimeStamp } from "../../../utils/datetime";
 import type { PostInfo } from "../../../types/post.types";
 import { Link } from "react-router";
+import translateCategory from "../../../utils/translateCategory";
 
 interface PostProps {
   post: PostInfo;
@@ -29,7 +30,7 @@ export default function Post({ post }: PostProps) {
         {/* {post.isPinned && <PinnedBadge />} */}
         <div className="flex-1">
           <PostMeta
-            category={"Geral"}
+            category={translateCategory(post.category)}
             author={post.user.username}
             timestamp={formatTimeStamp(new Date(post.createdAt))}
           />

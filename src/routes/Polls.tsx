@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
 import Tabs from "../components/common/Tabs";
+import Post from "../components/common/Post/Post";
+import { postService } from "../services/post.service";
+import type { PostsResponse } from "../types/post.types";
 
 export default function Polls() {
   const [activeTab, setActiveTab] = useState("inicio");
+  const [feedInfo, setFeedInfo] = useState<PostsResponse>();
+
+  useEffect(() => {
+    postService.getAllPosts(1, 20, "Polls").then((responseData) => setFeedInfo(responseData));
+  }, []);
 
   const enquetes: never[] = [];
 
@@ -22,6 +30,18 @@ export default function Polls() {
       </div>
 
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {(!feedInfo?.posts || feedInfo.posts.length === 0) && (
+        <div className="mt-10 text-center text-2xl">
+          <p>Não há posts nessa categoria ainda!</p>
+        </div>
+      )}
+
+      <div className="space-y-3">
+        {feedInfo?.posts?.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </div>
 
       {enquetes.length === 0 ? (
         <div className="bg-gray-900 rounded-lg border border-gray-800 p-12 text-center">
