@@ -9,9 +9,18 @@ export default function PostMeta({
   author: string;
   timestamp: string;
 }) {
+
+  const categoryToURLPath: Record<string, string> = {
+    "Geral": "/",
+    "Eventos": "eventos",
+    "Finanças": "financas",
+    "Enquetes": "enquetes",
+    "Esportes": "esportes"
+  }
+
   return (
     <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
-      <Link to={category}>
+      <Link to={categoryToURLPath[category]}>
         <span className="text-gray-400 hover:text-blue-500 px-2 py-1 rounded font-semibold">
           r/{category}
         </span>
