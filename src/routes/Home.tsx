@@ -1,41 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Tabs from "../components/common/Tabs";
-import Post from "../components/common/Post/Post";
-import { postService } from "../services/post.service";
-import { type PostsResponse } from '../types/post.types';
-import { feedService } from "../services/feed.service";
+import useFeed from "../hooks/useFeed";
+import PostList from "../components/common/Post/PostList";
 
 const ForumTheBug = () => {
   const [activeTab, setActiveTab] = useState("inicio");
-  const [feedInfo, setFeedInfo] = useState<PostsResponse>();
   const [sortBy, setSortBy] = useState<"date" | "upvotes">("date");
 
-  useEffect(() => {
-    if (sortBy == "date") {
-      postService.getAllPosts().then((responseData) => setFeedInfo(responseData));
-    }
-    else if (sortBy == "upvotes") {
-      feedService.getFeed().then((responseData) => setFeedInfo(responseData));
-    }
-  }, [sortBy]);
+  const { loading, error, feed } = useFeed(1, 20, "General", sortBy);
 
   return (
     <main className="lg:col-span-9 space-y-4">
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} setSortBy={setSortBy} />
-
-      {(!feedInfo?.posts || feedInfo.posts.length === 0) && (
-        <div className="mt-10 text-center text-2xl">
-          <p>
-            Não há posts ainda!
-          </p>
-        </div>
+      {!loading && !error && (
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setSortBy={setSortBy}
+        />
       )}
 
-      <div className="space-y-3">
-        {feedInfo?.posts?.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-      </div>
+      <PostList loading={loading} error={error} feed={feed} />
     </main>
   );
 };

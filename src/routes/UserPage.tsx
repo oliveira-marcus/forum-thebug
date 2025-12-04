@@ -56,7 +56,7 @@ export default function UserPage() {
   }
 
   return (
-    <main className="lg:col-span-9 space-y-4 pl-12">
+    <main className="lg:col-span-9 space-y-4">
       <div className="pl-4">
         <h2 className="text-2xl mb-0 text-gray-200 font-bold">{user.username}</h2>
         <p className="text-gray-300">u/{user.username}</p>

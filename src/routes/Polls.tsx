@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
 import Tabs from "../components/common/Tabs";
-import Post from "../components/common/Post/Post";
-import { postService } from "../services/post.service";
-import type { PostsResponse } from "../types/post.types";
+import useFeed from "../hooks/useFeed";
+import PostList from "../components/common/Post/PostList";
 
 export default function Polls() {
   const [activeTab, setActiveTab] = useState("inicio");
-  const [feedInfo, setFeedInfo] = useState<PostsResponse>();
+  const [sortBy, setSortBy] = useState<"date" | "upvotes">("date");
 
-  useEffect(() => {
-    postService.getAllPosts(1, 20, "Polls").then((responseData) => setFeedInfo(responseData));
-  }, []);
+  const { loading, error, feed } = useFeed(1, 20, "Polls", sortBy);
 
   return (
     <main className="lg:col-span-9 space-y-4">
@@ -27,23 +24,21 @@ export default function Polls() {
         </Link>
       </div>
 
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {(!feedInfo?.posts || feedInfo.posts.length === 0) && (
-        <div className="mt-10 text-center text-2xl">
-          <p>Não há posts nessa categoria ainda!</p>
-        </div>
+      {!loading && !error && (
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setSortBy={setSortBy}
+        />
       )}
 
-      <div className="space-y-3">
-        {feedInfo?.posts?.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-      </div>
+      <PostList loading={loading} error={error} feed={feed} />
 
-      {feedInfo?.posts.length === 0 ? (
+      {feed?.posts.length === 0 ? (
         <div className="bg-gray-900 rounded-lg border border-gray-800 p-12 text-center">
-          <p className="text-gray-400 text-lg mb-6">Nenhuma enquete encontrada.</p>
+          <p className="text-gray-400 text-lg mb-6">
+            Nenhuma enquete encontrada.
+          </p>
           <Link
             to="/enquetes/criar"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition"
@@ -53,8 +48,7 @@ export default function Polls() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
-        </div>
+        <div className="space-y-3"></div>
       )}
     </main>
   );

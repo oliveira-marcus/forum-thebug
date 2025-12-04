@@ -5,7 +5,7 @@ import Sidebar from "../components/common/Sidebar";
 export default function FeedLayout() {
     return (
         <div className="min-h-screen bg-black text-white">
-            <Header heading="The Bug Forum" subheading="Atlética UFVJM - SI" />
+            <Header heading="The Bug Fórum" subheading="Atlética UFVJM - SI" />
 
             <div className="max-w-7xl mx-auto px-4 py-6">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
