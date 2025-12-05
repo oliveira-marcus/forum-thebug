@@ -68,7 +68,7 @@ src/
 
 - Node.js 18+ 
 - npm ou yarn
-- API Backend rodando (veja [repositório da API](link-para-api))
+- API Backend rodando (veja [repositório da API](https://github.com/caioliboreiro/TheBugForumAPI.git)
 
 ## 💻 Instalação e Execução
 
