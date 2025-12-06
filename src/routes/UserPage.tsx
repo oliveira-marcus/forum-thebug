@@ -47,7 +47,7 @@ export default function UserPage() {
 
   if (error || !user) {
     return (
-      <main className="lg:col-span-9 space-y-4">
+      <main className="w-full lg:w-9/12 space-y-4">
         <div className="text-center py-6 text-red-400">
           {error ?? "Usuário não encontrado"}
         </div>
@@ -56,7 +56,7 @@ export default function UserPage() {
   }
 
   return (
-    <main className="lg:col-span-9 space-y-4">
+    <main className="w-full lg:w-9/12 space-y-4">
       <div className="pl-4">
         <h2 className="text-2xl mb-0 text-gray-200 font-bold">{user.username}</h2>
         <p className="text-gray-300">u/{user.username}</p>

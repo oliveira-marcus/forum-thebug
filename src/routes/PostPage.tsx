@@ -56,7 +56,7 @@ export default function PostPage() {
 
   if (error || !post) {
     return (
-      <main className="lg:col-span-9 space-y-4">
+      <main className="w-full lg:w-9/12 space-y-4">
         <div className="text-center py-6 text-red-400">
           {error ?? "Post não encontrado"}
         </div>
@@ -65,7 +65,7 @@ export default function PostPage() {
   }
 
   return (
-    <main className="lg:col-span-9 space-y-4">
+    <main className="w-full lg:w-9/12 space-y-4">
       <PostMeta
         author={post.user.username}
         authorId={post.user.id}

@@ -50,7 +50,7 @@ export default function Submit() {
   }
 
   return (
-    <main className="lg:col-span-9 space-y-4">
+    <main className="w-full lg:w-9/12 space-y-4">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <h2 className="text-2xl font-bold">Criar Post</h2>
         <CategorySelect value={category} onChange={setCategory} />

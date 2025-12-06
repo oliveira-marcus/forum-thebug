@@ -8,7 +8,7 @@ export default function FeedLayout() {
             <Header heading="The Bug Fórum" subheading="Atlética UFVJM - SI" />
 
             <div className="max-w-7xl mx-auto px-4 py-6">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div className="flex flex-col lg:flex-row gap-6">
                     <Sidebar />
                     <Outlet />
                 </div>

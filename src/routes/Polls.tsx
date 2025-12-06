@@ -12,7 +12,7 @@ export default function Polls() {
   const { loading, error, feed } = useFeed(1, 20, "Polls", sortBy);
 
   return (
-    <main className="lg:col-span-9 space-y-4">
+    <main className="w-full lg:w-9/12 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white">Enquetes</h1>
         <Link

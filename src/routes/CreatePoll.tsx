@@ -121,7 +121,7 @@ export default function CreatePoll() {
   }
 
   return (
-    <main className="lg:col-span-9">
+    <main className="w-full lg:w-9/12">
       <Link
         to="/enquetes"
         className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition mb-4"

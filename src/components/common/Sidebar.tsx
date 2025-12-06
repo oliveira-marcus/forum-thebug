@@ -18,7 +18,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="lg:col-span-3 space-y-4">
+    <aside className="w-full lg:w-3/12 space-y-4">
       <div className="bg-gray-900 rounded-lg border border-gray-800 p-4">
         <Link
           to="/posts/criar"

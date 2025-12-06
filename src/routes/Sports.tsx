@@ -10,7 +10,7 @@ export default function Sports() {
   const { loading, error, feed } = useFeed(1, 20, "Sports", sortBy);
 
   return (
-    <main className="lg:col-span-9 space-y-4">
+    <main className="w-full lg:w-9/12 space-y-4">
       {!loading && !error && (
         <Tabs
           activeTab={activeTab}
