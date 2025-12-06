@@ -1,5 +1,6 @@
 import { Award, Calendar, DollarSign, Home, Plus, Vote } from "lucide-react";
 import { Link, useLocation } from "react-router";
+import { useSidebar } from "../../contexts/SidebarProvider";
 
 export default function Sidebar() {
   const categories = [
@@ -9,8 +10,12 @@ export default function Sidebar() {
     { id: "enquetes", name: "Enquetes", icon: Vote, route: "enquetes" },
     { id: "esportes", name: "Esportes", icon: Award, route: "esportes" },
   ];
-
+  const { isSidebarVisible } = useSidebar();
   const location = useLocation();
+
+  if (!isSidebarVisible) {
+    return;
+  }
 
   return (
     <aside className="lg:col-span-3 space-y-4">

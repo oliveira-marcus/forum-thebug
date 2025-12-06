@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router";
 import usePostSearch from "../../hooks/usePostSearch";
 import { useRef, useState } from "react";
+import { useSidebar } from "../../contexts/SidebarProvider";
 
 interface HeaderProps {
   heading: string;
@@ -12,8 +13,11 @@ interface HeaderProps {
 export default function Header({ heading, subheading }: HeaderProps) {
   const [query, setQuery] = useState<string>("");
   const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const { toggleSidebar } = useSidebar();
 
   const { signOut } = useAuth();
 
@@ -34,11 +38,13 @@ export default function Header({ heading, subheading }: HeaderProps) {
     <header className="bg-linear-to-r from-blue-600 to-blue-800 border-b border-blue-700 sticky top-0 z-50">
       <div className="max-w-10xl mx-auto px-4 py-3">
         <div className="flex items-center">
-          <div className={`${
-                isMobileSearchActive && "hidden"
-              } flex items-center gap-4`}>
+          <div
+            className={`${
+              isMobileSearchActive && "hidden"
+            } flex items-center gap-4`}
+          >
             <button
-              onClick={() => {}}
+              onClick={toggleSidebar}
               aria-label="Toggle sidebar"
               className={`cursor-pointer p-3 rounded-full hover:bg-blue-500 transition`}
             >
@@ -64,7 +70,9 @@ export default function Header({ heading, subheading }: HeaderProps) {
 
           <div className="flex flex-1 items-center pl-8">
             <div
-              className={`${isMobileSearchActive && "hidden"} sm:hidden h-6 ml-auto`}
+              className={`${
+                isMobileSearchActive && "hidden"
+              } sm:hidden h-6 ml-auto`}
             >
               <button
                 onClick={() => {
