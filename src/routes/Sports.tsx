@@ -1,25 +1,5 @@
-import { useState } from "react";
-import Tabs from "../components/common/Tabs";
-import useFeed from "../hooks/useFeed";
-import PostList from "../components/common/Post/PostList";
+import Feed from "../components/feature/Feed";
 
 export default function Sports() {
-  const [activeTab, setActiveTab] = useState("inicio");
-  const [sortBy, setSortBy] = useState<"date" | "upvotes">("date");
-
-  const { loading, error, feed } = useFeed(1, 20, "Sports", sortBy);
-
-  return (
-    <main className="w-full lg:w-9/12 space-y-4">
-      {!loading && !error && (
-        <Tabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          setSortBy={setSortBy}
-        />
-      )}
-
-      <PostList loading={loading} error={error} feed={feed} />
-    </main>
-  );
+  return <Feed feedType="Sports" />
 }

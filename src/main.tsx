@@ -7,13 +7,11 @@ import AllRoutes from "./routes/AllRoutes.tsx";
 import { SidebarProvider } from "./contexts/SidebarProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <AuthProvider>
-      <SidebarProvider>
-        <BrowserRouter>
-          <AllRoutes />
-        </BrowserRouter>
-      </SidebarProvider>
-    </AuthProvider>
-  </StrictMode>
+  <AuthProvider>
+    <SidebarProvider>
+      <BrowserRouter>
+        <AllRoutes />
+      </BrowserRouter>
+    </SidebarProvider>
+  </AuthProvider>
 );

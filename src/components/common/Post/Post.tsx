@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import PostMeta from "./PostMeta";
 import PostActions from "./PostActionst";
 import { formatTimeStamp } from "../../../utils/datetime";
@@ -10,8 +10,11 @@ interface PostProps {
   post: PostInfo;
 }
 
-export default function Post({ post }: PostProps) {
-  const [postVotes, setPostVotes] = useState({ upvotes: post.upvotes, downvotes: post.downvotes });
+const Post = forwardRef<HTMLElement, PostProps>(({ post }, ref) => {
+  const [postVotes, setPostVotes] = useState({
+    upvotes: post.upvotes,
+    downvotes: post.downvotes,
+  });
 
   const handleVoteSuccess = (newUpvotes: number, newDownvotes: number) => {
     setPostVotes({ upvotes: newUpvotes, downvotes: newDownvotes });
@@ -21,13 +24,12 @@ export default function Post({ post }: PostProps) {
 
   return (
     <article
-      key={post.id}
+      ref={ref}
       className={`bg-gray-900 rounded-lg border hover:border-blue-600 transition-all ${
         false ? "border-blue-600" : "border-gray-800"
       }`}
     >
       <div className="p-4">
-        {/* {post.isPinned && <PinnedBadge />} */}
         <div className="flex-1">
           <PostMeta
             category={translateCategory(post.category)}
@@ -36,7 +38,7 @@ export default function Post({ post }: PostProps) {
             timestamp={formatTimeStamp(new Date(post.createdAt))}
           />
 
-          <Link to={"/posts" + "/" + post.id.toString()} >
+          <Link to={"/posts/" + post.id.toString()}>
             <h2 className="text-xl font-bold mb-2 hover:text-blue-400 cursor-pointer">
               {post.title}
             </h2>
@@ -54,4 +56,8 @@ export default function Post({ post }: PostProps) {
       </div>
     </article>
   );
-}
+});
+
+Post.displayName = "Post"; // for React DevTools
+
+export default Post;
