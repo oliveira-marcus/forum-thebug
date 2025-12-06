@@ -15,6 +15,10 @@ export default function useFeed(
   const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
+    setFeed(undefined);
+  }, [sortBy, category])
+
+  useEffect(() => {
     setLoading(true);
     setError(false);
 
