@@ -108,7 +108,7 @@ export default function CreatePoll() {
       const created = await pollService.createPoll(data);
       // If backend created a post for the poll, navigate to that post.
       if (created.postId) {
-        navigate(`/${created.postId}`);
+        navigate(`/posts/${created.postId}`);
       } else {
         navigate("/enquetes");
       }
