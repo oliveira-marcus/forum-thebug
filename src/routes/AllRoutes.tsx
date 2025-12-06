@@ -13,6 +13,7 @@ import { Route, Routes, Navigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import type { JSX } from "react";
 import UserPage from "./UserPage.tsx";
+import SearchPost from "./SearchPost.tsx";
 
 export default function AllRoutes() {
   const { loading } = useAuth();
@@ -67,6 +68,7 @@ export default function AllRoutes() {
         <Route path="eventos" element={<Events />} />
         <Route path="posts/:postId" element={<PostPage />} />
         <Route path="users/:userId" element={<UserPage />}></Route>
+        <Route path="search" element={<SearchPost />}></Route>
       </Route>
     </Routes>
   );

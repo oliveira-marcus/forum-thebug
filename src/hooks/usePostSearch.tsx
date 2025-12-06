@@ -1,11 +1,11 @@
 import axios, { type Canceler } from "axios";
 import { useEffect, useState } from "react";
-import type { PostsResponse } from "../types/post.types";
+import type { PostInfo, PostsResponse } from "../types/post.types";
 
 export default function usePostSearch(query: string) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [postTitles, setPostTitles] = useState<string[]>([]);
+  const [posts, setPosts] = useState<PostInfo[]>([]);
 
   useEffect(() => {
 
@@ -25,7 +25,8 @@ export default function usePostSearch(query: string) {
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        setPostTitles([...new Set(res.data.posts.map((p) => p.title))]);
+        setPosts([...new Set(res.data.posts)]);
+        setLoading(false);
       })
       .catch((e) => {
         if (axios.isCancel(e)) return;
@@ -35,5 +36,5 @@ export default function usePostSearch(query: string) {
     return () => cancel();
   }, [query]);
 
-  return { loading, error, postTitles };
+  return { loading, error, posts };
 }

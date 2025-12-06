@@ -1,6 +1,6 @@
 import { Search, Menu, LogOut } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import usePostSearch from "../../hooks/usePostSearch";
 import { useRef, useState } from "react";
 import { useSidebar } from "../../contexts/SidebarProvider";
@@ -23,7 +23,7 @@ export default function Header({ heading, subheading }: HeaderProps) {
 
   let navigate = useNavigate();
 
-  const { error, postTitles } = usePostSearch(query);
+  const { error, posts } = usePostSearch(query);
 
   function handleSignOut() {
     signOut();
@@ -32,6 +32,11 @@ export default function Header({ heading, subheading }: HeaderProps) {
 
   function handleQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    navigate(`/search?q=${encodeURIComponent(query.trim())}`);
   }
 
   return (
@@ -84,7 +89,8 @@ export default function Header({ heading, subheading }: HeaderProps) {
               </button>
             </div>
 
-            <div
+            <form
+              onSubmit={handleSubmit}
               className={`${!isMobileSearchActive && "hidden"} ${
                 isMobileSearchActive && "flex flex-1"
               } sm:flex z-0 mx-auto min-w-56 w-[30%] relative py-2 rounded-2xl gap-4 bg-[#122B83]`}
@@ -100,25 +106,31 @@ export default function Header({ heading, subheading }: HeaderProps) {
                 onChange={handleQueryChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => {
-                  setIsMobileSearchActive(false);
-                  setIsFocused(false);
+                  setTimeout(() => {
+                    setIsMobileSearchActive(false);
+                    setIsFocused(false);
+                  }, 100);
                 }}
               />
 
-              {isFocused && query && postTitles.length > 0 && (
+              {isFocused && query && posts.length > 0 && (
                 <ul className="pt-4 absolute top-[50%] -z-10 left-0 w-full bg-[#122B83] rounded-b-md">
-                  {postTitles.map((p) => (
-                    <li
-                      key={p}
-                      className="text-gray-300 hover:text-white px-2 py-1 hover:bg-app-blue cursor-pointer"
-                      onClick={() => {}}
+                  {posts.map((p) => (
+                    <Link
+                      to={`/search?q=${encodeURIComponent(p.title.trim())}`}
                     >
-                      {p}
-                    </li>
+                      <li
+                        key={p.id}
+                        className="text-gray-300 hover:text-white px-2 py-1 hover:bg-app-blue cursor-pointer"
+                        onClick={() => {}}
+                      >
+                        {p.title}
+                      </li>
+                    </Link>
                   ))}
                 </ul>
               )}
-            </div>
+            </form>
           </div>
 
           <div className="ml-auto">
