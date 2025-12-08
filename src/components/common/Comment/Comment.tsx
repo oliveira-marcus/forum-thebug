@@ -73,6 +73,8 @@ export default function Comment({ comment, postId, setComments }: CommentProps) 
         votes={calculatedVotes}
         onReply={() => setIsReplying(true)} // ← ENABLE BUTTON
         onVoteSuccess={handleVoteSuccess}
+        wasUpvoted={comment.wasUpvoted}
+        wasDownvoted={comment.wasDownvoted}
       />
 
       {isReplying && (

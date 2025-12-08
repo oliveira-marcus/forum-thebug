@@ -19,6 +19,8 @@ export interface CommentInfo {
   _count: {
     replies: number;
   };
+  wasUpvoted: boolean;
+  wasDownvoted: boolean;
 }
 
 export interface CreateCommentData {

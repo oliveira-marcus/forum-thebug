@@ -27,6 +27,8 @@ export interface PostInfo {
   _count: {
     comments: number;
   };
+  wasUpvoted: boolean;
+  wasDownvoted: boolean;
 }
 
 export type Category = (typeof Category)[keyof typeof Category];

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, MessageSquare, Loader } from "lucide-react";
+import { ChevronUp, MessageSquare } from "lucide-react";
 import { commentService } from "../../../services/comment.service";
 import { useAuth } from "../../../contexts/AuthContext";
 
@@ -8,6 +8,8 @@ interface CommentActionsProps {
   votes: number;
   onReply: () => void;
   onVoteSuccess: (newUpvotes: number, newDownvotes: number) => void;
+  wasUpvoted: boolean;
+  wasDownvoted: boolean;
 }
 
 export default function CommentActions({
@@ -15,10 +17,14 @@ export default function CommentActions({
   votes,
   onReply,
   onVoteSuccess,
+  wasUpvoted,
+  wasDownvoted,
 }: CommentActionsProps) {
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
+  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(
+    wasUpvoted ? "upvote" : wasDownvoted ? "downvote" : null
+  );
 
   const handleUpvote = async () => {
     if (!token) {
@@ -28,9 +34,12 @@ export default function CommentActions({
 
     try {
       setIsLoading(true);
-      const result = await commentService.toggleUpvoteComment(commentId, userVote);
+      const result = await commentService.toggleUpvoteComment(
+        commentId,
+        userVote
+      );
       onVoteSuccess(result.upvotes, result.downvotes);
-      
+
       // Update userVote state
       if (userVote === "upvote") {
         setUserVote(null); // Remove upvote
@@ -55,9 +64,12 @@ export default function CommentActions({
 
     try {
       setIsLoading(true);
-      const result = await commentService.toggleDownvoteComment(commentId, userVote);
+      const result = await commentService.toggleDownvoteComment(
+        commentId,
+        userVote
+      );
       onVoteSuccess(result.upvotes, result.downvotes);
-      
+
       // Update userVote state
       if (userVote === "downvote") {
         setUserVote(null); // Remove downvote
@@ -87,11 +99,7 @@ export default function CommentActions({
           } disabled:opacity-50`}
           title="Upvote"
         >
-          {isLoading ? (
-            <Loader className="w-5 h-5 animate-spin" />
-          ) : (
-            <ChevronUp className="w-5 h-5" />
-          )}
+          <ChevronUp className="w-5 h-5" />
         </button>
         <span className="text-sm font-bold">{votes}</span>
         <button
@@ -104,11 +112,7 @@ export default function CommentActions({
           } disabled:opacity-50 rotate-180`}
           title="Downvote"
         >
-          {isLoading ? (
-            <Loader className="w-5 h-5 animate-spin" />
-          ) : (
-            <ChevronUp className="w-5 h-5" />
-          )}
+          <ChevronUp className="w-5 h-5" />
         </button>
       </div>
 

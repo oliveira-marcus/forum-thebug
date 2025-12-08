@@ -51,6 +51,8 @@ const Post = forwardRef<HTMLElement, PostProps>(({ post }, ref) => {
             commentsCount={post._count.comments}
             votes={votes}
             onVoteSuccess={handleVoteSuccess}
+            wasUpvoted={post.wasUpvoted}
+            wasDownvoted={post.wasDownvoted}
           />
         </div>
       </div>

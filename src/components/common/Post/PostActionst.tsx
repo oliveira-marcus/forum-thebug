@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronUp, MessageSquare, Loader } from "lucide-react";
+import { ChevronUp, MessageSquare } from "lucide-react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { postService } from "../../../services/post.service";
 
@@ -8,15 +8,21 @@ export default function PostActions({
   commentsCount,
   votes,
   onVoteSuccess,
+  wasUpvoted,
+  wasDownvoted,
 }: {
   postId: number;
   commentsCount: number;
   votes: number;
   onVoteSuccess: (newUpvotes: number, newDownvotes: number) => void;
+  wasUpvoted: boolean;
+  wasDownvoted: boolean;
 }) {
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
+  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(
+    wasUpvoted ? "upvote" : wasDownvoted ? "downvote" : null
+  );
 
   const handleUpvote = async () => {
     if (!token) {
@@ -67,22 +73,26 @@ export default function PostActions({
           onClick={handleUpvote}
           disabled={isLoading}
           className={`p-1 transition cursor-pointer ${
-            userVote === "upvote" ? "text-blue-500" : "text-gray-400 hover:text-blue-500"
+            userVote === "upvote"
+              ? "text-blue-500"
+              : "text-gray-400 hover:text-blue-500"
           } disabled:opacity-50`}
           title="Upvote"
         >
-          {isLoading ? <Loader className="w-6 h-6 animate-spin" /> : <ChevronUp className="w-6 h-6" />}
+          <ChevronUp className="w-6 h-6" />
         </button>
         <span className="font-bold text-sm">{votes}</span>
         <button
           onClick={handleDownvote}
           disabled={isLoading}
           className={`p-1 transition cursor-pointer ${
-            userVote === "downvote" ? "text-red-500" : "text-gray-400 hover:text-red-500"
+            userVote === "downvote"
+              ? "text-red-500"
+              : "text-gray-400 hover:text-red-500"
           } disabled:opacity-50 rotate-180`}
           title="Downvote"
         >
-          {isLoading ? <Loader className="w-6 h-6 animate-spin" /> : <ChevronUp className="w-6 h-6" />}
+          <ChevronUp className="w-6 h-6" />
         </button>
       </div>
 
